@@ -9,7 +9,6 @@ import vn.minhtung.laptopshop.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    // User save(User minhtung);
 
     List<User> findByEmail(String email);
 

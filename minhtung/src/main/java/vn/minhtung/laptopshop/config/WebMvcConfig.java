@@ -1,6 +1,5 @@
 package vn.minhtung.laptopshop.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,10 +33,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
+    registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
+    registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/");
   }
 
-
-  //tắt sercurity tạm thời
+  // tắt sercurity tạm thời
   @Configuration
   public class SecurityConfig {
     @Bean
@@ -48,4 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
       return http.build();
     }
   }
+
+  
+
 }
