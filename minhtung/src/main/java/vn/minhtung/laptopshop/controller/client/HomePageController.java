@@ -18,6 +18,9 @@ import vn.minhtung.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -33,7 +36,7 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String getHomePage(Model model) {
+    public String getHomePage(Model model, HttpServletRequest request) {
         List<Product> products = this.productService.fetchProducts();
         model.addAttribute("products1", products);
         return "client/homepage/show";
@@ -73,8 +76,7 @@ public class HomePageController {
     }
 
     @GetMapping("/access-deny")
-    public String getDenyPage(Model model){
-
+    public String getDenyPage(Model model) {
         return "client/auth/deny";
     }
 }
