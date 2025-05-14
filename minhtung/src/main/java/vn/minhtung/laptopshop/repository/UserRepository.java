@@ -9,12 +9,16 @@ import vn.minhtung.laptopshop.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findByEmail(String email);
+    List<User> findOneByEmail(String email);
 
     // List<User> findAll();
 
     User findById(long id);
 
     void deleteById(long id);
+
+    boolean existsByEmail(String email);
+
+    User findByEmail(String email);
 
 }

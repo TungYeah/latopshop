@@ -11,10 +11,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import vn.minhtung.laptopshop.service.validator.StrongPassword;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -28,23 +27,27 @@ public class User {
     private String email;
 
     @NotNull
-    @Min(value = 2, message = "Tối thiếu 2 ký tự")
+    @Size(min = 2, message = "Password phải có tối thiểu 2 ký tự")
+    // @StrongPassword(message = "Phải có độ dài 8 ký tự và là sự kết hợp của chữ hoa, chữ thường, số và ký tự đặc biệt")
     private String password;
 
     @NotNull
-    @Min(value = 3, message = "Tối thiểu 6 ký tự")
+    @Size(min = 3, message = "Fullname phải có tối thiểu 3 ký tự")
     private String fullName;
 
     private String address;
     private String phone;
+
     private String avatar;
 
+    // roleId
+    // User many -> to one -> role
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    List<Order> orders;
 
     public Role getRole() {
         return role;
@@ -123,4 +126,5 @@ public class User {
         return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
                 + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
+
 }

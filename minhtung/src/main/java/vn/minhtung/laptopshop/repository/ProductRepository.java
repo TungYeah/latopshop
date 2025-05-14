@@ -10,7 +10,7 @@ import vn.minhtung.laptopshop.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    // List<Product> findAll();
+    List<Product> findAll();
 
     Product findById(long id);
 

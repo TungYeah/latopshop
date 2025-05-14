@@ -40,15 +40,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
   }
 
   // tắt sercurity tạm thời
-  @Configuration
-  public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      http
-          .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-          .csrf(csrf -> csrf.disable()); // Tắt CSRF nếu cần
-      return http.build();
-    }
-  }
+  // @Configuration
+  // public class SecurityConfig {
+  // @Bean
+  // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+  // Exception {
+  // http
+  // .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+  // .csrf(csrf -> csrf.disable()); // Tắt CSRF nếu cần
+  // return http.build();
+  // }
+  // }
 
 }

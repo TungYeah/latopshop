@@ -33,4 +33,8 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
+    public List<Product> fetchProducts(){
+        return this.productRepository.findAll();
+    }
+
 }
