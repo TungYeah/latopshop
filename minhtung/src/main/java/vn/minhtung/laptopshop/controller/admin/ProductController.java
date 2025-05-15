@@ -1,6 +1,7 @@
 package vn.minhtung.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +62,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/{id}")
     public String getDetailProducts(Model model, @PathVariable long id) {
-        Product product = this.productService.getProductById(id);
+        Optional<Product> product = this.productService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
         return "admin/product/detail";
@@ -69,7 +70,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProducts(Model model, @PathVariable long id) {
-        Product product = this.productService.getProductById(id);
+        Optional<Product> product = this.productService.getProductById(id);
         model.addAttribute("newProduct", product);
         return "admin/product/update";
     }
@@ -84,7 +85,7 @@ public class ProductController {
             return "admin/product/update";
         }
 
-        Product product = this.productService.getProductById(minhtung.getId());
+        Product product = this.productService.getProductById(minhtung.getId()).get();
         if (product != null) {
             product.setName(minhtung.getName());
             product.setPrice(minhtung.getPrice());

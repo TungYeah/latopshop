@@ -15,12 +15,8 @@ import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.domain.dto.RegisterDTO;
 import vn.minhtung.laptopshop.service.ProductService;
 import vn.minhtung.laptopshop.service.UserService;
-
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
