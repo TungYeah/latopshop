@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import vn.minhtung.laptopshop.domain.Role;
 import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.domain.dto.RegisterDTO;
+import vn.minhtung.laptopshop.repository.OrderRepository;
+import vn.minhtung.laptopshop.repository.ProductRepository;
 import vn.minhtung.laptopshop.repository.RoleRepository;
 import vn.minhtung.laptopshop.repository.UserRepository;
 
@@ -14,10 +16,15 @@ import vn.minhtung.laptopshop.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProductRepository productrRepository;
+    private final OrderRepository orderRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+            ProductRepository productRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.orderRepository = orderRepository;
+        this.productrRepository = productRepository;
 
     }
 
@@ -62,7 +69,19 @@ public class UserService {
         return this.userRepository.existsByEmail(email);
     }
 
-    public User getUserByEmail(String email){
+    public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    public long countUsers() {
+        return this.userRepository.count();
+    }
+
+    public long countOrders() {
+        return this.orderRepository.count();
+    }
+
+    public long countProducts() {
+        return this.productrRepository.count();
     }
 }

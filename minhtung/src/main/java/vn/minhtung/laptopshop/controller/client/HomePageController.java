@@ -6,17 +6,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import vn.minhtung.laptopshop.domain.Order;
 import vn.minhtung.laptopshop.domain.Product;
 import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.domain.dto.RegisterDTO;
+import vn.minhtung.laptopshop.service.OrderService;
 import vn.minhtung.laptopshop.service.ProductService;
 import vn.minhtung.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,11 +26,14 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder) {
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
+            OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -74,5 +79,16 @@ public class HomePageController {
     @GetMapping("/access-deny")
     public String getDenyPage(Model model) {
         return "client/auth/deny";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryHomePage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        User user = new User();
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+        List<Order> order = this.orderService.getOrderByUser(user);
+        model.addAttribute("orders", order);
+        return "client/cart/order-history";
     }
 }

@@ -2,27 +2,24 @@ package vn.minhtung.laptopshop.service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.stereotype.Service;
 
 import vn.minhtung.laptopshop.domain.Order;
 import vn.minhtung.laptopshop.domain.OrderDetail;
+import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.repository.OrderDetailRepository;
 import vn.minhtung.laptopshop.repository.OrderRepository;
 
 @Service
 public class OrderService {
 
-    private final DaoAuthenticationProvider authProvider;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
 
-    public OrderService(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository,
-            DaoAuthenticationProvider authProvider) {
+    public OrderService(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository) {
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;
-        this.authProvider = authProvider;
+
     }
 
     public List<Order> getAllOrder() {
@@ -52,5 +49,9 @@ public class OrderService {
             }
         }
         this.orderRepository.deleteById(id);
+    }
+
+    public List<Order> getOrderByUser(User user){
+        return this.orderRepository.findByUser(user);
     }
 }
