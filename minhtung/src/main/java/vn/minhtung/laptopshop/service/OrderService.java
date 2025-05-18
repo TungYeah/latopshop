@@ -2,6 +2,9 @@ package vn.minhtung.laptopshop.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.minhtung.laptopshop.domain.Order;
@@ -22,8 +25,8 @@ public class OrderService {
 
     }
 
-    public List<Order> getAllOrder() {
-        return this.orderRepository.findAll();
+    public Page<Order> getAllOrders(Pageable page) {
+        return this.orderRepository.findAll(page);
     }
 
     public Optional<Order> getOrderById(long id) {
@@ -51,7 +54,7 @@ public class OrderService {
         this.orderRepository.deleteById(id);
     }
 
-    public List<Order> getOrderByUser(User user){
+    public List<Order> getOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
     }
 }
