@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -13,8 +14,10 @@ import vn.minhtung.laptopshop.domain.CartDetail;
 import vn.minhtung.laptopshop.domain.Order;
 import vn.minhtung.laptopshop.domain.OrderDetail;
 import vn.minhtung.laptopshop.domain.Product;
+import vn.minhtung.laptopshop.domain.Product_;
 import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.repository.*;
+import vn.minhtung.laptopshop.service.specification.ProductSpecs;
 
 @Service
 public class ProductService {
@@ -42,8 +45,12 @@ public class ProductService {
         return minhtung;
     }
 
-    public Page<Product> getAllProducts(Pageable page) {
-        return this.productRepository.findAll(page);
+    private Specification<Product> nameLike(String name) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Product_.NAME), "%" + name + "%");
+    }
+
+    public Page<Product> getAllProducts(Pageable page, String name) {
+        return this.productRepository.findAll(ProductSpecs.nameLike(name), page);
     }
 
     public Cart fetchByUser(User user) {
@@ -58,8 +65,8 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    public List<Product> fetchProducts() {
-        return this.productRepository.findAll();
+    public Page<Product> fetchProducts(Pageable page) {
+        return this.productRepository.findAll(page);
     }
 
     public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
@@ -139,7 +146,7 @@ public class ProductService {
                 order.setStatus("PENDING");
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice();
+                    sum += cd.getPrice() * cd.getQuantity();
                 }
                 order.setTotalPrice(sum);
                 this.orderRepository.save(order);

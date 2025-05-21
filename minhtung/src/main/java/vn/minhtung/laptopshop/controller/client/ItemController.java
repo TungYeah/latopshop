@@ -19,8 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import vn.minhtung.laptopshop.domain.Cart;
 import vn.minhtung.laptopshop.domain.CartDetail;
-import vn.minhtung.laptopshop.domain.Order;
-import vn.minhtung.laptopshop.domain.OrderDetail;
 import vn.minhtung.laptopshop.domain.Product;
 import vn.minhtung.laptopshop.domain.User;
 import vn.minhtung.laptopshop.service.ProductService;
@@ -137,7 +135,12 @@ public class ItemController {
     }
 
     @GetMapping("/products")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional,
+            @RequestParam("name") Optional<String> nameOptional,
+            @RequestParam("min-price") Optional<String> minOptional,
+            @RequestParam("max-price") Optional<String> maxOptional,
+            @RequestParam("factory") Optional<String> factoryOptional,
+            @RequestParam("price") Optional<String> priceOptional) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -150,8 +153,9 @@ public class ItemController {
             // page = 1
             // TODO: handle exception
         }
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.getAllProducts(pageable);
+        Pageable pageable = PageRequest.of(page - 1, 60);
+        String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        Page<Product> prs = this.productService.getAllProducts(pageable, name);
         List<Product> products = prs.getContent();
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
